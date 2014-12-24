@@ -1,0 +1,86 @@
+
+.pointer {
+	cursor: pointer;
+}
+
+.scrollable-content {
+	background-color: #ffffff;
+}
+
+/*
+.btn-group div.num-btn {
+	text-align: center;
+}
+
+.btn-group div.num-btn div {
+	border: 1px solid #ccc;
+	cursor: pointer;
+	padding: 8px;
+	margin: 3px;
+	border-radius: 4px;
+}
+*/
+
+.right-stacked {
+	float: right;
+	clear: right;
+}
+
+.left-stacked {
+	float: left;
+	clear: left;
+}
+
+.clear-both {
+	clear: both;
+}
+
+.center {
+    text-align: center;
+}
+
+.none {
+	display: none;
+}
+
+.equation {
+    font-size: 34px;
+    height: 40px;
+    margin: auto;
+}
+
+#last-attempt {
+    padding-right: 60px;
+}
+.correct {
+    background: url(../images/correct-32.png) no-repeat top right;
+}
+.incorrect {
+    background: url(../images/incorrect-32.png) no-repeat top right;
+}
+
+.keypad {
+	background-color: #f7f7f7;
+	border-top: 1px solid #cccccc;
+}
+
+.keypad div div.btn-default {
+	margin: 6px;
+	font-size: 30px;
+	display: block;
+	color: #6e6e6e;
+}
+
+.keypad .placeholder {
+	padding-left: 6px;
+	margin-left: 6px;
+	padding-right: 6px;
+	margin-right: 6px;
+}
+
+.keypad .placeholder div {
+	padding-left: 6px;
+	margin-left: 6px;
+	padding-right: 6px;
+	margin-right: 6px;
+}

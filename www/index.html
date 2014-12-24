@@ -1,0 +1,225 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<head>
+	<title>Zappy Math</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+	<style type="text/css">
+		/* Prevent copy paste for all elements except text fields */
+		*  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+		input, textarea  { -webkit-user-select:text; }
+		body { background-color:white; color:black }
+	</style>
+	<script src='intelxdk.js'></script>
+	<script type="text/javascript">
+		/* Intel native bridge is available */
+		var onDeviceReady=function(){
+		//hide splash screen
+		intel.xdk.device.hideSplashScreen();
+		};
+		document.addEventListener("intel.xdk.device.ready",onDeviceReady,false);
+	</script>
+	
+<link rel="stylesheet" href="lib/ng-mobile-07b149d/css/mobile-angular-ui-base.css" />
+<link rel="stylesheet" href="css/user.css" />
+
+<script src="js/lib/angular-1.3.0.js"></script>
+<script src="lib/ng-mobile-07b149d/js/mobile-angular-ui.js"></script>	
+
+<script src="js/lib/xform.js"></script>
+<script src="js/lib/zappy.js"></script>
+<script src="js/lib/zappy-cookies.js"></script>
+
+<script src="js/directive/common-directives.js"></script>
+<script src="js/service/common-services.js"></script>
+<script src="js/service/common-filters.js"></script>
+
+<script src="js/text/text.js"></script>
+<script src="js/text/text-en.js"></script>
+
+<script src="js/service/equation-service.js"></script>
+<script src="js/service/op-def.js"></script>
+<script src="js/service/op-service.js"></script>
+<script src="js/service/settings-service.js"></script>
+<script src="js/service/stats-service.js"></script>
+
+<script src="js/user-index.js"></script>
+
+<script src="js/controller/main-ctrl.js"></script>
+<script src="js/controller/equation-ctrl.js"></script>
+<script src="js/controller/settings-ctrl.js"></script>
+<script src="js/controller/stats-ctrl.js"></script>
+
+
+
+</head>
+<body ng-app="zappy-app" ng-controller="MainCtrl">
+
+<div overlay="start-overlay" default="active-no">
+  <h4 class="overlay-title" tm-text="readyQuestion"></h4>    
+	<div style="margin-bottom: 10px;">
+		<div>
+			<zp-text>opLabel</zp-text>: {{equation.opText()}}
+		</div>
+		<div>
+			<zp-text>levelLabel</zp-text>: {{equation.levelText()}}
+		</div>
+	</div>
+  <p toggle="off" bubble target="start-overlay">
+    <span class="btn btn-default" zp-text="changeSettingsAction"></span>
+    <span class="btn btn-primary" zp-text="startAction"></span>
+  </p>  
+</div>
+
+
+<!-- Sidebars -->
+	
+<div class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="mainSidebar">
+  <h1 class="app-name" zp-text="zappyLabel"></h1>
+
+  <div class="scrollable">
+    <div class="scrollable-content">
+      <div class="list-group" toggle="off" bubble target="mainSidebar">
+        <a class="list-group-item pointer" ng-class="{active:main.state=='eqZone'}" ng-click="main.setState('eqZone')"><span zp-text="eqZoneLabel"></span> <i class="fa fa-chevron-right pull-right"></i></a>
+        <a class="list-group-item pointer" ng-class="{active:main.state=='stats'}" ng-click="main.setState('stats')"><span zp-text="statsLabel"></span> <i class="fa fa-chevron-right pull-right"></i></a>
+        <a class="list-group-item pointer" ng-class="{active:main.state=='settings'}" ng-click="main.setState('settings')"><span zp-text="settingsLabel"></span> <i class="fa fa-chevron-right pull-right"></i></a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- Navbars -->
+  <div class="navbar navbar-app navbar-absolute-top">
+
+      <div class="navbar-brand navbar-brand-center">
+        <span zp-text="zappyLabel"></span>
+      </div>
+
+      <div class="btn-group pull-left">
+        <div ng-click="toggle('mainSidebar')" class="btn btn-navbar sidebar-toggle">
+          <i class="fa fa-bars"></i>
+        </div>
+      </div>
+
+  </div>
+
+  <div class="app-body">
+  		<div class="app-content" ng-show="main.state == 'eqZone'" ng-controller="EquationCtrl">
+  			<div class="scrollable adjust-scrollable">
+			<div class="scrollable-content">
+  				<div class="container-fluid section container">
+  				
+		                        <div class="left-stacked">
+		                            <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|avgFormatter}}</span>
+		                        </div>
+		                        <div class="right-stacked">
+		                            <span id="streak"><zp-text>streakLabel</zp-text>: {{equation.stats.data.streak}}</span>
+		                        </div>
+		
+		                        <div class="left-stacked">
+		                            <span id="lastFewAvg">{{equation.lastFewLabel()}}: {{equation.stats.data.lastFewAvgTime|avgFormatter}}</span>
+		                        </div>
+		                        <div class="right-stacked" ng-show="equation.stats.data.fastestFew">
+		                            <span id="fastestFew">{{equation.fastestFewLabel()}}: {{equation.stats.data.fastestFew|avgFormatter}}</span>
+		                        </div>
+		
+		                <div class="center equation clear-both">
+		                    <span id="last-attempt" class="{{equation.correctClass()}}">{{equation.correctText()}}</span>
+		                </div>
+		                <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
+		                <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
+  				
+  				
+  					<!-- 
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  		  			<span>The equation zone.</span>
+  		  			<div> some other content</div>
+  					-->
+  					
+				</div>
+  			</div>
+  			</div>
+
+			  <div class="keypad navbar-absolute-bottom">
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="1"></zp-numbtn>
+			    	<zp-numbtn value="2"></zp-numbtn>
+			    	<zp-numbtn value="3"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="4"></zp-numbtn>
+			    	<zp-numbtn value="5"></zp-numbtn>
+			    	<zp-numbtn value="6"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="7"></zp-numbtn>
+			    	<zp-numbtn value="8"></zp-numbtn>
+			    	<zp-numbtn value="9"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn><!-- hack to get 0 button to size correctly -->
+			    	<zp-numbtn value="0"></zp-numbtn>
+			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn>
+			    </div>
+			  </div>
+
+  		</div>
+
+  		<div class="app-content" ng-show="main.state == 'stats'">
+  			<div class="scrollable">
+			<div class="scrollable-content">
+  				<div class="container-fluid section container">
+		  			All the stats
+		  		</div>
+		  	</div>
+		  	</div>
+  		</div>
+
+  		<div class="app-content" ng-show="main.state == 'settings'">
+  			<div class="scrollable">
+			<div class="scrollable-content">
+  				<div class="container-fluid section container">
+		  			set up some settings here.
+		  		</div>
+		  	</div>
+		  	</div>
+  		</div>
+  </div>
+</div>
+    
+</body>
+</html>
