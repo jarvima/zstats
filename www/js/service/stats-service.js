@@ -1,7 +1,7 @@
 
 angular.module('stats.service', [])
 
-.factory('$stats', ['$timeout', function($timeout) {
+.factory('$stats', ['$timeout', '$filter', function($timeout, $filter) {
 
     var statsService = {
     	data: {
@@ -25,19 +25,16 @@ angular.module('stats.service', [])
             var stored = zappy.cookies.read('stats');
             if (stored) {
             	var thisRef = this;
-            	$timeout(function() {
+            	//$timeout(function() {
                 	thisRef.data = stored;
-            	});
+            	//});
             }
         },
-        formatTime: function(time) {
-        	return Math.round(time)/1000;
-        },
         averageTime: function() {
-        	return this.formatTime(this.data.averageTime);
+        	return $filter('average')(this.data.averageTime);
         },
         lastFewAvgTime: function() {
-        	return this.formatTime(this.data.lastFewAvgTime);
+        	return $filter('average')(this.data.lastFewAvgTime);
         },
         updateEqStats: function(lastAttemptArg) {
             var stats = angular.copy(this.data);
@@ -63,6 +60,7 @@ angular.module('stats.service', [])
                 var total = stats.averageTime * stats.correctCount;
                 total += lastAttempt.time;
                 stats.correctCount++;
+                console.log('stats total: ' + total + ' stats.correctCount: ' + stats.correctCount);
                 stats.averageTime = total / stats.correctCount; 
             }
         },

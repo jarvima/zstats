@@ -55,8 +55,9 @@ function($scope, $equation, $stats, $text) {
 			console.log('fastestfew');
 			return $text.getEmbedded('fastestFew', [this.stats.data.lastFewNum]);
 		},
-		debug: function() {
-			console.log("debug was called");
+		quit: function() {
+			console.log('TODO quit the equation properly');
+			$scope.toggle('start-overlay', 'off');
 		}	
 	};
 }]);

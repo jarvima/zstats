@@ -1,7 +1,7 @@
 
 angular.module('equation.service', ['settings.service'])
 
-.factory('$equation', ['$settings', '$stats', function($settings, $stats) {
+.factory('$equation', ['$settings', '$stats', '$trans', function($settings, $stats, $trans) {
 
     var equation = {
         data: {
@@ -51,6 +51,7 @@ angular.module('equation.service', ['settings.service'])
                 }
                 this.data.lastAttempt = lastAttempt;
                 $stats.updateEqStats(lastAttempt);
+                $trans.updateRoundStats(lastAttempt);
             }
         },
         delhit: function() {

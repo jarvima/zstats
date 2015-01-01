@@ -30,9 +30,9 @@
 <script src="js/lib/zappy.js"></script>
 <script src="js/lib/zappy-cookies.js"></script>
 
+<script src="js/filter/common-filters.js"></script>
 <script src="js/directive/common-directives.js"></script>
 <script src="js/service/common-services.js"></script>
-<script src="js/service/common-filters.js"></script>
 
 <script src="js/text/text.js"></script>
 <script src="js/text/text-en.js"></script>
@@ -42,10 +42,13 @@
 <script src="js/service/op-service.js"></script>
 <script src="js/service/settings-service.js"></script>
 <script src="js/service/stats-service.js"></script>
+<script src="js/service/stats-service.js"></script>
+<script src="js/service/transition-service.js"></script>
 
 <script src="js/user-index.js"></script>
 
 <script src="js/controller/main-ctrl.js"></script>
+<script src="js/controller/transition-ctrl.js"></script>
 <script src="js/controller/equation-ctrl.js"></script>
 <script src="js/controller/settings-ctrl.js"></script>
 <script src="js/controller/stats-ctrl.js"></script>
@@ -55,20 +58,70 @@
 </head>
 <body ng-app="zappy-app" ng-controller="MainCtrl">
 
-<div overlay="start-overlay" default="active-no">
-  <h4 class="overlay-title" tm-text="readyQuestion"></h4>    
-	<div style="margin-bottom: 10px;">
-		<div>
-			<zp-text>opLabel</zp-text>: {{equation.opText()}}
-		</div>
-		<div>
-			<zp-text>levelLabel</zp-text>: {{equation.levelText()}}
-		</div>
-	</div>
-  <p toggle="off" bubble target="start-overlay">
-    <span class="btn btn-default" zp-text="changeSettingsAction"></span>
-    <span class="btn btn-primary" zp-text="startAction"></span>
-  </p>  
+<div overlay="start-overlay" ng-controller="EquationCtrl">
+    
+    
+  			<div class="scrollable adjust-scrollable">
+<div class="equationbar">
+	Too much stress?
+    <span class="btn btn-primary" zp-text="Quit" ng-click="equation.quit()"></span>
+	</div>  
+			<div class="scrollable-content">
+  				<div class="container-fluid section container">
+
+				<div>
+
+
+		                        <div class="left-stacked">
+		                            <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|average}}</span>
+		                        </div>
+		                        <div class="right-stacked">
+		                            <span id="streak"><zp-text>streakLabel</zp-text>: {{equation.stats.data.streak}}</span>
+		                        </div>
+		
+		                        <div class="left-stacked">
+		                            <span id="lastFewAvg">{{equation.lastFewLabel()}}: {{equation.stats.data.lastFewAvgTime|average}}</span>
+		                        </div>
+		                        <div class="right-stacked" ng-show="equation.stats.data.fastestFew">
+		                            <span id="fastestFew">{{equation.fastestFewLabel()}}: {{equation.stats.data.fastestFew|average}}</span>
+		                        </div>
+		
+		                <div class="center equation clear-both">
+		                    <span id="last-attempt" class="{{equation.correctClass()}}">{{equation.correctText()}}</span>
+		                </div>
+		                <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
+		                <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
+		        </div>
+				</div>
+  			</div>
+  			</div>
+
+			  <div class="keypad navbar-absolute-bottom">
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="1"></zp-numbtn>
+			    	<zp-numbtn value="2"></zp-numbtn>
+			    	<zp-numbtn value="3"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="4"></zp-numbtn>
+			    	<zp-numbtn value="5"></zp-numbtn>
+			    	<zp-numbtn value="6"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="7"></zp-numbtn>
+			    	<zp-numbtn value="8"></zp-numbtn>
+			    	<zp-numbtn value="9"></zp-numbtn>
+			    </div>
+			    <div class="btn-group justified nav-tabs">
+			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn><!-- hack to get 0 button to size correctly -->
+			    	<zp-numbtn value="0"></zp-numbtn>
+			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn>
+			    </div>
+			  </div>
+    
+    
+    
+    
 </div>
 
 
@@ -107,105 +160,72 @@
   </div>
 
   <div class="app-body">
-  		<div class="app-content" ng-show="main.state == 'eqZone'" ng-controller="EquationCtrl">
-  			<div class="scrollable adjust-scrollable">
-			<div class="scrollable-content">
-  				<div class="container-fluid section container">
-  				
-		                        <div class="left-stacked">
-		                            <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|avgFormatter}}</span>
-		                        </div>
-		                        <div class="right-stacked">
-		                            <span id="streak"><zp-text>streakLabel</zp-text>: {{equation.stats.data.streak}}</span>
-		                        </div>
-		
-		                        <div class="left-stacked">
-		                            <span id="lastFewAvg">{{equation.lastFewLabel()}}: {{equation.stats.data.lastFewAvgTime|avgFormatter}}</span>
-		                        </div>
-		                        <div class="right-stacked" ng-show="equation.stats.data.fastestFew">
-		                            <span id="fastestFew">{{equation.fastestFewLabel()}}: {{equation.stats.data.fastestFew|avgFormatter}}</span>
-		                        </div>
-		
-		                <div class="center equation clear-both">
-		                    <span id="last-attempt" class="{{equation.correctClass()}}">{{equation.correctText()}}</span>
-		                </div>
-		                <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
-		                <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
-  				
-  				
-  					<!-- 
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  		  			<span>The equation zone.</span>
-  		  			<div> some other content</div>
-  					-->
-  					
+  		<div class="app-content" ng-show="main.state == 'eqZone'" ng-controller="TransitionCtrl">
+				<div class="overlay show">
+				<div class="overlay-inner">
+					<div class="overlay-content">
+						<div class="overlay-body">
+
+							<div id="round-results" ng-show="trans.state == 'continue'">
+								<h4 class="overlay-title">
+									<zp-text>Round Results</zp-text>
+								</h4>
+								<div style="margin-bottom: 10px;">
+									<div>
+										<zp-text>equationsLabel</zp-text>: {{trans.numEqs()}}
+									</div>
+									<div>
+										<zp-text>fastestLabel</zp-text>: {{trans.fastest()}}
+									</div>
+									<div>
+										<zp-text>slowestLabel</zp-text>: {{trans.slowest()}}
+									</div>
+									<div>
+										<zp-text>averageLabel</zp-text>: {{trans.averageTime|average}}
+									</div>
+								</div>
+								<div style="margin-bottom: 20px;"></div>
+							</div>
+	
+
+							<h4 class="overlay-title">
+								<zp-text ng-show="trans.state == 'continue'">readyMoreQuestion</zp-text>
+								<zp-text ng-show="trans.state == 'begin'">readyQuestion</zp-text>
+							</h4>
+							<div style="margin-bottom: 10px;">
+								<div>
+									<zp-text>opLabel</zp-text>: {trans.opText()}}
+								</div>
+								<div>
+									<zp-text>levelLabel</zp-text>: {{trans.levelText()}}
+								</div>
+							</div>
+							<span class="btn btn-default" zp-text="changeSettingsAction"></span>
+							<span class="btn btn-primary" zp-text="startAction" ng-click="trans.start()"></span>
+
+						</div>
+					</div>
 				</div>
-  			</div>
-  			</div>
-
-			  <div class="keypad navbar-absolute-bottom">
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="1"></zp-numbtn>
-			    	<zp-numbtn value="2"></zp-numbtn>
-			    	<zp-numbtn value="3"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="4"></zp-numbtn>
-			    	<zp-numbtn value="5"></zp-numbtn>
-			    	<zp-numbtn value="6"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="7"></zp-numbtn>
-			    	<zp-numbtn value="8"></zp-numbtn>
-			    	<zp-numbtn value="9"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn><!-- hack to get 0 button to size correctly -->
-			    	<zp-numbtn value="0"></zp-numbtn>
-			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn>
-			    </div>
-			  </div>
-
-  		</div>
+				</div>
+		</div>
 
   		<div class="app-content" ng-show="main.state == 'stats'">
   			<div class="scrollable">
 			<div class="scrollable-content">
-  				<div class="container-fluid section container">
-		  			All the stats
-		  		</div>
-		  	</div>
+
+				<div class="overlay show">
+				<div class="overlay-inner">
+					<div class="overlay-content">
+						<div class="overlay-body">
+
+							Centered text???							
+
+						</div>
+					</div>
+				</div>
+				</div>
+
+			</div>
 		  	</div>
   		</div>
 

@@ -1,4 +1,8 @@
 
+body {
+	color: #636363;
+}
+
 .pointer {
 	cursor: pointer;
 }
@@ -39,8 +43,36 @@
     text-align: center;
 }
 
+.vmiddle-container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+.vmiddle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .none {
 	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.app-content {
+	background-color: #fff;	
+}
+
+.overlay .overlay-inner > .overlay-content {
+	color: #444;
+}
+
+.equationbar {
+  background: #f7f7f7;
+  border-bottom: 1px solid #ccc;
+  padding: 4px;
 }
 
 .equation {

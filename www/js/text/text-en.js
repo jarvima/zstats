@@ -22,6 +22,7 @@ zappy.text.en = {
 		fastestFew: 'Fastest {0}', // Fastest 10
 		streakLabel: 'Streak', // Consecutive
 		readyQuestion: 'Are you ready?',
+		readyMoreQuestion: 'Ready for more?',
 		changeSettingsAction: 'Change Settings',
 		startAction: 'Start',
 		opLabel: 'Operation',
