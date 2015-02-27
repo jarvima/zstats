@@ -166,22 +166,22 @@
 					<div class="overlay-content">
 						<div class="overlay-body">
 
-							<div id="round-results" ng-show="trans.state == 'continue'">
+							<div id="round-results" ng-show="trans.state() == 'continue'">
 								<h4 class="overlay-title">
-									<zp-text>Round Results</zp-text>
+									<zp-text>roundResultsLabel</zp-text>
 								</h4>
 								<div style="margin-bottom: 10px;">
 									<div>
 										<zp-text>equationsLabel</zp-text>: {{trans.numEqs()}}
 									</div>
 									<div>
-										<zp-text>fastestLabel</zp-text>: {{trans.fastest()}}
+										<zp-text>fastestLabel</zp-text>: {{trans.fastest()|average}}
 									</div>
 									<div>
-										<zp-text>slowestLabel</zp-text>: {{trans.slowest()}}
+										<zp-text>slowestLabel</zp-text>: {{trans.slowest()|average}}
 									</div>
 									<div>
-										<zp-text>averageLabel</zp-text>: {{trans.averageTime|average}}
+										<zp-text>averageLabel</zp-text>: {{trans.averageTime()|average}}
 									</div>
 								</div>
 								<div style="margin-bottom: 20px;"></div>
@@ -189,12 +189,12 @@
 	
 
 							<h4 class="overlay-title">
-								<zp-text ng-show="trans.state == 'continue'">readyMoreQuestion</zp-text>
-								<zp-text ng-show="trans.state == 'begin'">readyQuestion</zp-text>
+								<zp-text ng-show="trans.state() == 'continue'">readyMoreQuestion</zp-text>
+								<zp-text ng-show="trans.state() == 'begin'">readyQuestion</zp-text>
 							</h4>
 							<div style="margin-bottom: 10px;">
 								<div>
-									<zp-text>opLabel</zp-text>: {trans.opText()}}
+									<zp-text>opLabel</zp-text>: {{trans.opText()}}
 								</div>
 								<div>
 									<zp-text>levelLabel</zp-text>: {{trans.levelText()}}

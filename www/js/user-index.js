@@ -22,7 +22,6 @@ angular.module('zappy-app', ['mobile-angular-ui', 'common.directives', 'common.f
         var doc = $(document);
         
         doc.on('click', '#startAction', function(evt) {
-            equation.genEqData();
         	$.ui.hideModal("pop");
         	console.log('modal should be hidden');
         });

@@ -17,6 +17,7 @@ angular.module('trans.service', [])
         	this.data = resetData();
         },
         updateRoundStats: function(lastAttempt) {
+        	console.log('lastAttempt', lastAttempt);
         	this.data.answerCount++;
         	this.data.totalTime += lastAttempt.time;
         	if (this.data.slowest < lastAttempt.time) {
@@ -27,7 +28,7 @@ angular.module('trans.service', [])
         	}
         },
         numEqs: function() {
-        	return this.data.numEqs;
+        	return this.data.answerCount;
         },
         fastest: function() {
         	return this.data.fastest;
@@ -37,6 +38,14 @@ angular.module('trans.service', [])
         },
         averageTime: function() {
         	return this.data.totalTime / this.data.answerCount;
+        },
+        state: function() {
+        	if (this.data.answerCount == 0) {
+        		return 'begin';
+        	}
+        	else {
+        		return 'continue';
+        	}
         }
     };
     
