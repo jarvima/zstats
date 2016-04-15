@@ -48,16 +48,10 @@ function($scope, $equation, $stats, $text) {
 			return $settings.levelText();
 		},
 		lastFewLabel: function() {
-			console.log('lastfew');
 			return $text.getEmbedded('lastFewAvg', [this.stats.data.lastFewNum]);
 		},
 		fastestFewLabel: function() {
-			console.log('fastestfew');
 			return $text.getEmbedded('fastestFew', [this.stats.data.lastFewNum]);
 		},
-		quit: function() {
-			console.log('TODO quit the equation properly');
-			$scope.toggle('start-overlay', 'off');
-		}	
 	};
 }]);

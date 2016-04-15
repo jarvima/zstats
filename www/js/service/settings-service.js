@@ -10,7 +10,7 @@ angular.module('settings.service', ['op.service'])
             num2high: 20,
             num2low: 0,
             op: $op.Add,
-            eqsPerRound: 10
+            eqsPerRound: 3
         },		
         genEqData: function() {
             var op = this.data.op;
@@ -23,6 +23,9 @@ angular.module('settings.service', ['op.service'])
         },
         levelText: function() {
         	return $text.get(this.data.op.getLevelKey(this.data));
+        },
+        eqsPerRound: function() {
+        	return this.data.eqsPerRound;
         }
     };
 }]);

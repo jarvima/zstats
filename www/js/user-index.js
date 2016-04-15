@@ -1,6 +1,7 @@
 
 angular.module('zappy-app', ['mobile-angular-ui', 'common.directives', 'common.filters']);
 
+/*
 (function() {
     "use strict";
     
@@ -82,3 +83,4 @@ angular.module('zappy-app', ['mobile-angular-ui', 'common.directives', 'common.f
     //$(document).ready(init);
     //$(document).ready(debug);
 })();
+*/

@@ -1,8 +1,21 @@
 
 angular.module('zappy-app')
 
-.controller('TransitionCtrl', ['$scope', '$trans', '$settings', '$equation',
-function($scope, $trans, $settings, $equation) {
+.controller('TransitionCtrl', ['$scope', '$trans', '$settings', '$equation', '$text',
+function($scope, $trans, $settings, $equation, $text) {
+	
+	var stopRound = function() {
+		console.log('TODO quit the equation properly');
+		$scope.toggle('start-overlay', 'off');
+	}
+	
+	$scope.$trans = $trans;
+	
+	$scope.$watch('$trans.correctCount()', function(newValue, oldValue) {
+		if (newValue == $scope.trans.numEqs()) {
+			stopRound();
+		}
+	});
 	
 	$scope.trans = {
 		start: function() {
@@ -11,6 +24,9 @@ function($scope, $trans, $settings, $equation) {
             $equation.genEqData();
 			$scope.toggle('start-overlay', 'on');
 		},
+		quit: function() {
+			stopRound();
+		},
 		opText: function() {
 			return $settings.opText();
 		},
@@ -18,7 +34,13 @@ function($scope, $trans, $settings, $equation) {
 			return $settings.levelText();
 		},
         numEqs: function() {
-        	return $trans.numEqs();
+        	return $settings.eqsPerRound();
+        },
+        ansCount: function() {
+        	return $trans.ansCount();
+        },
+        correctCount: function() {
+        	return $trans.correctCount();
         },
         fastest: function() {
         	return $trans.fastest();
@@ -31,7 +53,10 @@ function($scope, $trans, $settings, $equation) {
         },
         state: function() {
         	return $trans.state();
-        }
+        },
+		progressNumbersText: function() {
+			return $text.getEmbedded('progressNumbers', [$trans.correctCount() + 1, this.numEqs()]);
+		},
 	};
 	
 }]);

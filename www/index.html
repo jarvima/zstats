@@ -58,68 +58,67 @@
 </head>
 <body ng-app="zappy-app" ng-controller="MainCtrl">
 
-<div overlay="start-overlay" ng-controller="EquationCtrl">
+<div overlay="start-overlay" ng-show="main.state=='round'" ng-controller="EquationCtrl">
     
-    
-  			<div class="scrollable adjust-scrollable">
-<div class="equationbar">
-	Too much stress?
-    <span class="btn btn-primary" zp-text="Quit" ng-click="equation.quit()"></span>
-	</div>  
-			<div class="scrollable-content">
-  				<div class="container-fluid section container">
+    <div class="scrollable adjust-scrollable" ng-controller="TransitionCtrl">
+		<div class="equationbar">
+			Too much stress?
+		    <span class="btn btn-primary" zp-text="Quit" ng-click="trans.quit()"></span>
+		</div>  
+		<div class="scrollable-content">
+ 			<div class="container-fluid section container">
 
-				<div>
+			<div>
+               <div class="left-stacked">
+                   <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|average}}</span>
+               </div>
+               <div class="right-stacked">
+                   <span id="streak"><zp-text>streakLabel</zp-text>: {{equation.stats.data.streakCorrect?'':'-'}}{{equation.stats.data.streak}}</span>
+               </div>
 
+               <div class="left-stacked">
+                   <span id="lastFewAvg">{{equation.lastFewLabel()}}: {{equation.stats.data.lastFewAvgTime|average}}</span>
+               </div>
+               <div class="right-stacked" ng-show="equation.stats.data.fastestFew">
+                   <span id="fastestFew">{{equation.fastestFewLabel()}}: {{equation.stats.data.fastestFew|average}}</span>
+               </div>
 
-		                        <div class="left-stacked">
-		                            <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|average}}</span>
-		                        </div>
-		                        <div class="right-stacked">
-		                            <span id="streak"><zp-text>streakLabel</zp-text>: {{equation.stats.data.streak}}</span>
-		                        </div>
-		
-		                        <div class="left-stacked">
-		                            <span id="lastFewAvg">{{equation.lastFewLabel()}}: {{equation.stats.data.lastFewAvgTime|average}}</span>
-		                        </div>
-		                        <div class="right-stacked" ng-show="equation.stats.data.fastestFew">
-		                            <span id="fastestFew">{{equation.fastestFewLabel()}}: {{equation.stats.data.fastestFew|average}}</span>
-		                        </div>
-		
-		                <div class="center equation clear-both">
-		                    <span id="last-attempt" class="{{equation.correctClass()}}">{{equation.correctText()}}</span>
-		                </div>
-		                <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
-		                <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
-		        </div>
-				</div>
-  			</div>
-  			</div>
+               <div class="right-stacked">
+                   <span>{{trans.progressNumbersText()}}</span>
+               </div>
 
-			  <div class="keypad navbar-absolute-bottom">
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="1"></zp-numbtn>
-			    	<zp-numbtn value="2"></zp-numbtn>
-			    	<zp-numbtn value="3"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="4"></zp-numbtn>
-			    	<zp-numbtn value="5"></zp-numbtn>
-			    	<zp-numbtn value="6"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="7"></zp-numbtn>
-			    	<zp-numbtn value="8"></zp-numbtn>
-			    	<zp-numbtn value="9"></zp-numbtn>
-			    </div>
-			    <div class="btn-group justified nav-tabs">
-			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn><!-- hack to get 0 button to size correctly -->
-			    	<zp-numbtn value="0"></zp-numbtn>
-			    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn>
-			    </div>
-			  </div>
-    
-    
+               <div class="center equation clear-both">
+                   <span id="last-attempt" class="{{equation.correctClass()}}">{{equation.correctText()}}</span>
+               </div>
+               <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
+               <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
+	        </div>
+			</div>
+ 		</div>
+  	</div>
+
+	  <div class="keypad navbar-absolute-bottom">
+	    <div class="btn-group justified nav-tabs">
+	    	<zp-numbtn value="1"></zp-numbtn>
+	    	<zp-numbtn value="2"></zp-numbtn>
+	    	<zp-numbtn value="3"></zp-numbtn>
+	    </div>
+	    <div class="btn-group justified nav-tabs">
+	    	<zp-numbtn value="4"></zp-numbtn>
+	    	<zp-numbtn value="5"></zp-numbtn>
+	    	<zp-numbtn value="6"></zp-numbtn>
+	    </div>
+	    <div class="btn-group justified nav-tabs">
+	    	<zp-numbtn value="7"></zp-numbtn>
+	    	<zp-numbtn value="8"></zp-numbtn>
+	    	<zp-numbtn value="9"></zp-numbtn>
+	    </div>
+	    <div class="btn-group justified nav-tabs">
+	    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn><!-- hack to get 0 button to size correctly -->
+	    	<zp-numbtn value="0"></zp-numbtn>
+	    	<zp-numbtn value="0" style="visibility: hidden;"></zp-numbtn>
+	    </div>
+	  </div>
     
     
 </div>
@@ -160,7 +159,7 @@
   </div>
 
   <div class="app-body">
-  		<div class="app-content" ng-show="main.state == 'eqZone'" ng-controller="TransitionCtrl">
+  		<div class="app-content" ng-controller="TransitionCtrl">
 				<div class="overlay show">
 				<div class="overlay-inner">
 					<div class="overlay-content">
@@ -172,7 +171,7 @@
 								</h4>
 								<div style="margin-bottom: 10px;">
 									<div>
-										<zp-text>equationsLabel</zp-text>: {{trans.numEqs()}}
+										<zp-text>equationsLabel</zp-text>: {{trans.correctCount()}}
 									</div>
 									<div>
 										<zp-text>fastestLabel</zp-text>: {{trans.fastest()|average}}
@@ -198,6 +197,9 @@
 								</div>
 								<div>
 									<zp-text>levelLabel</zp-text>: {{trans.levelText()}}
+								</div>
+								<div>
+									<zp-text>numEqsLabel</zp-text>: {{trans.numEqs()}}
 								</div>
 							</div>
 							<span class="btn btn-default" zp-text="changeSettingsAction"></span>

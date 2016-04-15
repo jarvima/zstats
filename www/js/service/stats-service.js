@@ -60,7 +60,7 @@ angular.module('stats.service', [])
                 var total = stats.averageTime * stats.correctCount;
                 total += lastAttempt.time;
                 stats.correctCount++;
-                console.log('stats total: ' + total + ' stats.correctCount: ' + stats.correctCount);
+                //console.log('stats total: ' + total + ' stats.correctCount: ' + stats.correctCount);
                 stats.averageTime = total / stats.correctCount; 
             }
         },
