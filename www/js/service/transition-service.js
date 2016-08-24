@@ -36,7 +36,6 @@ angular.module('trans.service', ['settings.service'])
         	return this.data.answerCount;
         },
         correctCount: function() {
-        	console.log('getting correctCount', this.data.correctCount)
         	return this.data.correctCount;
         },
         fastest: function() {

@@ -3,7 +3,8 @@ angular.module('zappy-app')
 
 .directive('zpNumbtn', ['$equation', function($equation) {
 	
-	var template = '<div><div class="btn btn-default" ng-click="clickNum(value)">{{value}}</div></div>';
+	var template = '<div><div class="btn btn-default">{{value}}</div></div>';
+	//var template = '<div><div class="btn btn-default" ng-click="clickNum(value)">{{value}}</div></div>';
 	
 	var clickNum = function(value) {
 		$equation.numhit(value);
@@ -18,6 +19,14 @@ angular.module('zappy-app')
 		},
 		link: function(scope, element, attrs) {
 			scope.clickNum = clickNum;
+			
+			angular.element(element).bind('touchstart mousedown', function(event) {
+				event.stopPropagation(); 
+				event.preventDefault();
+				clickNum(element[0].textContent);
+				scope.$apply();
+				console.log('touchstart fired', element[0].textContent)
+			});
 		},
     };
 }])

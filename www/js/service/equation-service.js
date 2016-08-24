@@ -37,6 +37,7 @@ angular.module('equation.service', ['settings.service'])
         numhit: function(num) {
             var userAnsStr = this.data.userAnsStr + num;
             this.data.userAnsStr = userAnsStr;
+    		console.log('numhit userAnsStr ', userAnsStr)
             if (userAnsStr.length == this.ansStr.length) {
                 var lastAttempt = angular.copy(this.data);
                 lastAttempt.userAnsStr = userAnsStr;

@@ -10,15 +10,6 @@
 		input, textarea  { -webkit-user-select:text; }
 		body { background-color:white; color:black }
 	</style>
-	<script src='intelxdk.js'></script>
-	<script type="text/javascript">
-		/* Intel native bridge is available */
-		var onDeviceReady=function(){
-		//hide splash screen
-		intel.xdk.device.hideSplashScreen();
-		};
-		document.addEventListener("intel.xdk.device.ready",onDeviceReady,false);
-	</script>
 	
 <link rel="stylesheet" href="lib/ng-mobile-07b149d/css/mobile-angular-ui-base.css" />
 <link rel="stylesheet" href="css/user.css" />
@@ -66,9 +57,11 @@
 		    <span class="btn btn-primary" zp-text="Quit" ng-click="trans.quit()"></span>
 		</div>  
 		<div class="scrollable-content">
+			<!--  
+ 			<div class="container-fluid section container fill-main">
+ 			-->
  			<div class="container-fluid section container">
 
-			<div>
                <div class="left-stacked">
                    <span id="average"><zp-text>averageLabel</zp-text>: {{equation.stats.data.averageTime|average}}</span>
                </div>
@@ -92,7 +85,6 @@
                </div>
                <div id="equation" class="center equation">{{equation.service.getEqStr()}}</div>
                <div id="userAnswer" class="center equation">{{equation.service.data.userAnsStr}}</div>
-	        </div>
 			</div>
  		</div>
   	</div>

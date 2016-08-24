@@ -11,19 +11,13 @@ body {
 	background-color: #ffffff;
 }
 
-/*
-.btn-group div.num-btn {
-	text-align: center;
+.fill-main {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 273px;
+    top: 0;
 }
-
-.btn-group div.num-btn div {
-	border: 1px solid #ccc;
-	cursor: pointer;
-	padding: 8px;
-	margin: 3px;
-	border-radius: 4px;
-}
-*/
 
 .right-stacked {
 	float: right;
@@ -78,6 +72,12 @@ body {
 .equation {
     font-size: 34px;
     height: 40px;
+    /*
+    position: absolute;
+    top: 70%;
+    left: 0;
+    right: 0;
+    */
     margin: auto;
 }
 
