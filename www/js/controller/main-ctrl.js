@@ -5,7 +5,8 @@ angular.module('zappy-app')
 function($scope) {
 	
 	$scope.main = {
-		state: 'eqZone',
+		//state: 'eqZone',
+		state: 'settings',
 		setState: function(state) {
 			this.state = state;
 			console.log("set state: " + state);

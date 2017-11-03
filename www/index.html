@@ -151,12 +151,12 @@
   </div>
 
   <div class="app-body">
-  		<div class="app-content" ng-controller="TransitionCtrl">
+  		<div class="app-content">
 				<div class="overlay show">
 				<div class="overlay-inner">
 					<div class="overlay-content">
-						<div class="overlay-body">
-
+					
+						<div class="overlay-body" ng-controller="TransitionCtrl" ng-show="main.state == 'eqZone'">
 							<div id="round-results" ng-show="trans.state() == 'continue'">
 								<h4 class="overlay-title">
 									<zp-text>roundResultsLabel</zp-text>
@@ -196,42 +196,54 @@
 							</div>
 							<span class="btn btn-default" zp-text="changeSettingsAction"></span>
 							<span class="btn btn-primary" zp-text="startAction" ng-click="trans.start()"></span>
-
 						</div>
-					</div>
-				</div>
-				</div>
-		</div>
-
-  		<div class="app-content" ng-show="main.state == 'stats'">
-  			<div class="scrollable">
-			<div class="scrollable-content">
-
-				<div class="overlay show">
-				<div class="overlay-inner">
-					<div class="overlay-content">
-						<div class="overlay-body">
+						
+						<div class="overlay-body" ng-controller="StatsCtrl" ng-show="main.state == 'stats'">
+							
+							The Stats
 
 							Centered text???							
 
 						</div>
+						
+						<div class="overlay-body" ng-controller="SettingsCtrl" ng-show="main.state == 'settings'">
+							
+							<div>
+								<table class="settings">
+								<tr>
+									<td>
+							  			Operation:
+									</td>
+									<td>
+							  			<select>
+							  				<option>Addition</option>
+							  				<option>Substraction</option>
+							  				<option>Multiplication</option>
+							  				<option>Division</option>
+							  			</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+							  			Difficulty:
+									</td>
+									<td>
+							  			<select>
+							  				<option>Easy</option>
+							  				<option>Medium</option>
+							  				<option>Difficult</option>
+							  			</select>
+									</td>
+								</tr>
+								</table>
+							</div>
+
+						</div>
+						
 					</div>
 				</div>
 				</div>
-
-			</div>
-		  	</div>
-  		</div>
-
-  		<div class="app-content" ng-show="main.state == 'settings'">
-  			<div class="scrollable">
-			<div class="scrollable-content">
-  				<div class="container-fluid section container">
-		  			set up some settings here.
-		  		</div>
-		  	</div>
-		  	</div>
-  		</div>
+		</div>
   </div>
 </div>
     
